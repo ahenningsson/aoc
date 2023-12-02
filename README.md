@@ -10,8 +10,8 @@
   
   | Day 	| Part 1 	| Part 2 	| Link to code 	|
   |-----	|--------	|--------	|--------------	|
-  | 1   	| x      	| x      	| [Day 1](https://github.com/ahenningsson/aoc/tree/main/2023/day1)             	|
-  | 2   	|        	|        	|              	|
+  | 1   	| x      	| x      	| [Day 1](https://github.com/ahenningsson/aoc/tree/main/2023/day1/day_1.go)             	|
+  | 2   	| x       	| x       	| [Day 2](https://github.com/ahenningsson/aoc/blob/main/2023/day2/day_2.go)             	|
   | 3   	|        	|        	|              	|
   | 4   	|        	|        	|              	|
   | 5   	|        	|        	|              	|
@@ -35,7 +35,3 @@
   | 23  	|        	|        	|              	|
   | 24  	|        	|        	|              	|
 </div>
-
-<p align='center'>
-  fasdsada
-</p>
