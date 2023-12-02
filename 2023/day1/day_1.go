@@ -57,7 +57,7 @@ func main() {
 	// End boiler plate
 
 	// Part 1
-	lines, err := readLines("./input.txt")
+	lines, err := readLines("./annan_input.txt")
 	check(err)
 
 	sum := 0
@@ -76,7 +76,7 @@ func main() {
 	fmt.Println("part 1: ", sum)
 
 	// Part 2
-	lines, err = readLines("./input.txt")
+	lines, err = readLines("./annan_input.txt")
 	check(err)
 	// numberStringMap := map[string]string{"one": "1", "two": "2", "three": "3", "four": "4", "five": "5", "six": "6", "seven": "7", "eight": "8", "nine": "9"}
 
