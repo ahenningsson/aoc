@@ -57,62 +57,70 @@ func main() {
 	// Boiler plate
 	err := os.Chdir("./2023/day2")
 	check(err)
-	// End boiler plate
 
-	// Part 1
 	lines, err := readLines("./input.txt")
 	check(err)
+	// End boiler plate
 
 	sum := 0
 	power := 0
-	validGame := true
 
 	for idx, line := range lines {
 
 		gameString := strings.Split(line, ": ")[1]
-		validGame = true //part 1
 		games := strings.Split(gameString, ";")
 
-		power += calcLowestCubeCount(games) //part 2
-		for _, set := range games {
-			set = strings.TrimSpace(set)
-			colorPair := strings.Split(set, ",")
+		sum += part1(games, idx)
+		power += part2(games)
 
-			for _, cvpair := range colorPair {
-				cvpair = strings.TrimSpace(cvpair)
-				val := strings.Split(cvpair, " ")
-
-				valInt, err := strconv.Atoi(val[0])
-				check(err)
-
-				// part 1
-				if checkColor(val[1], valInt) && validGame {
-					validGame = true
-				} else {
-					validGame = false
-				}
-			}
-		}
-		if validGame {
-			sum += idx + 1
-		}
 	}
 
 	println("Part 1: ", sum)
 	println("Part 2: ", power)
 }
 
+func part1(gameRows []string, idx int) int {
+	validGame := true
+	sum := 0
+
+	for _, set := range gameRows {
+		set = strings.TrimSpace(set)
+		colorPair := strings.Split(set, ",")
+
+		for _, cvpair := range colorPair {
+			cvpair = strings.TrimSpace(cvpair)
+			val := strings.Split(cvpair, " ")
+
+			valInt, err := strconv.Atoi(val[0])
+			check(err)
+
+			if checkColor(val[1], valInt) && validGame {
+				validGame = true
+			} else {
+				validGame = false
+			}
+		}
+	}
+	if validGame {
+		sum += idx + 1
+	}
+
+	return sum
+}
+
 // part 2
-func calcLowestCubeCount(gameRow []string) int {
+func part2(gameRows []string) int {
 	red := 0
 	green := 0
 	blue := 0
-	for _, row := range gameRow {
+	for _, row := range gameRows {
 		row = strings.TrimSpace(row)
 		colorPairs := strings.Split(row, ",")
+
 		for _, pair := range colorPairs {
 			pair = strings.TrimSpace(pair)
 			val := strings.Split(pair, " ")
+
 			valInt, err := strconv.Atoi(val[0])
 			check(err)
 
