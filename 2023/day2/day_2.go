@@ -28,31 +28,6 @@ func readLines(path string) ([]string, error) {
 	return lines, scanner.Err()
 }
 
-const (
-	MAX_RED   = 12
-	MAX_GREEN = 13
-	MAX_BLUE  = 14
-)
-
-func checkColor(color string, val int) bool {
-	if color == "red" {
-		if val > MAX_RED {
-			return false
-		}
-	}
-	if color == "green" {
-		if val > MAX_GREEN {
-			return false
-		}
-	}
-	if color == "blue" {
-		if val > MAX_BLUE {
-			return false
-		}
-	}
-	return true
-}
-
 func main() {
 	// Boiler plate
 	err := os.Chdir("./2023/day2")
@@ -79,14 +54,40 @@ func main() {
 	println("Part 2: ", power)
 }
 
+/*
+PART 1
+*/
+const (
+	MAX_RED   = 12
+	MAX_GREEN = 13
+	MAX_BLUE  = 14
+)
+
+func isCubeCountValid(color string, val int) bool {
+	if color == "red" {
+		if val > MAX_RED {
+			return false
+		}
+	}
+	if color == "green" {
+		if val > MAX_GREEN {
+			return false
+		}
+	}
+	if color == "blue" {
+		if val > MAX_BLUE {
+			return false
+		}
+	}
+	return true
+}
+
 func part1(gameRows []string, idx int) int {
-	validGame := true
 	sum := 0
-
+	validGame := true
+OuterLoop:
 	for _, set := range gameRows {
-		set = strings.TrimSpace(set)
-		colorPair := strings.Split(set, ",")
-
+		colorPair := strings.Split(strings.TrimSpace(set), ",")
 		for _, cvpair := range colorPair {
 			cvpair = strings.TrimSpace(cvpair)
 			val := strings.Split(cvpair, " ")
@@ -94,25 +95,28 @@ func part1(gameRows []string, idx int) int {
 			valInt, err := strconv.Atoi(val[0])
 			check(err)
 
-			if checkColor(val[1], valInt) && validGame {
-				validGame = true
-			} else {
+			if !isCubeCountValid(val[1], valInt) {
 				validGame = false
+				break OuterLoop
 			}
 		}
 	}
 	if validGame {
 		sum += idx + 1
 	}
-
 	return sum
 }
 
-// part 2
+/*
+PART 2
+*/
 func part2(gameRows []string) int {
-	red := 0
-	green := 0
-	blue := 0
+	colorsMap := map[string]int{
+		"red":   0,
+		"green": 0,
+		"blue":  0,
+	}
+
 	for _, row := range gameRows {
 		row = strings.TrimSpace(row)
 		colorPairs := strings.Split(row, ",")
@@ -124,18 +128,10 @@ func part2(gameRows []string) int {
 			valInt, err := strconv.Atoi(val[0])
 			check(err)
 
-			if val[1] == "red" && valInt > red {
-				red = valInt
-			}
-
-			if val[1] == "green" && valInt > green {
-				green = valInt
-			}
-
-			if val[1] == "blue" && valInt > blue {
-				blue = valInt
+			if valInt > colorsMap[val[1]] {
+				colorsMap[val[1]] = valInt
 			}
 		}
 	}
-	return red * green * blue
+	return colorsMap["red"] * colorsMap["green"] * colorsMap["blue"]
 }
