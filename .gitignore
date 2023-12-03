@@ -6,6 +6,7 @@
 *.dll
 *.so
 *.txt
+*.json
 
 # Ignore build output directories
 /bin/
