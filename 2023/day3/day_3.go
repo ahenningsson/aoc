@@ -40,20 +40,7 @@ func main() {
 	maxRows := len(lines)
 	maxCols := len(lines[0])
 
-	// lines := []string{
-	// 	"467..114..",
-	// 	"...*......",
-	// 	"..35..633.",
-	// 	"......#...",
-	// 	"617*......",
-	// 	".....+.58.",
-	// 	"..592.....",
-	// 	"......755.",
-	// 	"...$.*....",
-	// 	".664.598.."}
-
 	println("Part 1: ", part1(lines, maxRows, maxCols))
-
 	println("Part 2: ", part2(lines, maxRows, maxCols))
 }
 
