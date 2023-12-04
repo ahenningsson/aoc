@@ -2,9 +2,11 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"os"
 	"strconv"
 	"strings"
+	"time"
 )
 
 // boiler plate
@@ -36,22 +38,18 @@ func main() {
 	lines, err := readLines("./input.txt")
 	check(err)
 	// End boiler plate
+	part1(lines)
 
-	sum := 0
+	start := time.Now()
 	power := 0
-
-	for idx, line := range lines {
-
+	for _, line := range lines {
 		gameString := strings.Split(line, ": ")[1]
 		games := strings.Split(gameString, ";")
-
-		sum += part1(games, idx)
 		power += part2(games)
-
 	}
-
-	println("Part 1: ", sum)
-	println("Part 2: ", power)
+	elapsed := time.Since(start)
+	fmt.Println("Part 2 took: ", elapsed.Microseconds(), " μs")
+	fmt.Println("Part 2 result: ", power)
 }
 
 /*
@@ -82,42 +80,50 @@ func isCubeCountValid(color string, val int) bool {
 	return true
 }
 
-func part1(gameRows []string, idx int) int {
+func part1(lines []string) {
+	start := time.Now()
 	sum := 0
-	validGame := true
-OuterLoop:
-	for _, set := range gameRows {
-		colorPair := strings.Split(strings.TrimSpace(set), ",")
-		for _, cvpair := range colorPair {
-			cvpair = strings.TrimSpace(cvpair)
-			val := strings.Split(cvpair, " ")
+	for idx, line := range lines {
 
-			valInt, err := strconv.Atoi(val[0])
-			check(err)
+		gameString := strings.Split(line, ": ")[1]
+		games := strings.Split(gameString, ";")
+		validGame := true
+	OuterLoop:
+		for _, set := range games {
+			colorPair := strings.Split(strings.TrimSpace(set), ",")
+			for _, cvpair := range colorPair {
+				cvpair = strings.TrimSpace(cvpair)
+				val := strings.Split(cvpair, " ")
 
-			if !isCubeCountValid(val[1], valInt) {
-				validGame = false
-				break OuterLoop
+				valInt, err := strconv.Atoi(val[0])
+				check(err)
+
+				if !isCubeCountValid(val[1], valInt) {
+					validGame = false
+					break OuterLoop
+				}
 			}
 		}
+		if validGame {
+			sum += idx + 1
+		}
 	}
-	if validGame {
-		sum += idx + 1
-	}
-	return sum
+	elapsed := time.Since(start)
+	fmt.Println("Part 1 result: ", sum)
+	println("Part 1 took: ", elapsed.Microseconds(), " μs")
 }
 
 /*
 PART 2
 */
-func part2(gameRows []string) int {
+func part2(games []string) int {
 	colorsMap := map[string]int{
 		"red":   0,
 		"green": 0,
 		"blue":  0,
 	}
 
-	for _, row := range gameRows {
+	for _, row := range games {
 		row = strings.TrimSpace(row)
 		colorPairs := strings.Split(row, ",")
 

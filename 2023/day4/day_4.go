@@ -2,11 +2,12 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"math"
 	"os"
-	"slices"
 	"strconv"
 	"strings"
+	"time"
 )
 
 // check if error is nil
@@ -39,54 +40,53 @@ func main() {
 	lines, err := readLines("./input.txt")
 	check(err)
 	// // End boiler plate
+	part1(lines)
+	part2(lines)
+}
+
+func part1(lines []string) {
+	start := time.Now()
 	part1Res := 0
 	for _, line := range lines {
-		part1Res += part1(line)
-	}
-	println("Part 1: ", part1Res)
+		row := strings.Split(line, ":")
+		gameRow := strings.Split(row[1], "|")
+		winningNumbersStr := strings.Split(strings.TrimSpace(gameRow[0]), " ")
+		winningNumbers := make(map[int]bool)
+		for _, numb := range winningNumbersStr {
+			if len(numb) == 0 {
+				continue
+			}
+			val, err := strconv.ParseInt(numb, 10, 32)
+			check(err)
+			winningNumbers[int(val)] = true // Add the winning numbers to a map
+		}
 
-	println("Part 2: ", part2(lines))
+		ownNumbersStr := strings.Split(strings.TrimSpace(gameRow[1]), " ")
+		winCount := 0
+		for _, numb := range ownNumbersStr {
+			if len(numb) == 0 {
+				continue
+			}
+			val, err := strconv.ParseInt(numb, 10, 32)
+			check(err)
+			if winningNumbers[int(val)] {
+				winCount += 1
+			}
+		}
+
+		if winCount > 0 {
+			part1Res += int(math.Pow(2, float64(winCount-1)))
+		}
+
+	}
+
+	elapsed := time.Since(start)
+	fmt.Println("Part 1 result: ", part1Res)
+	fmt.Println("Part 1 took: ", elapsed.Microseconds(), " μs")
 }
 
-func part1(line string) int {
-	row := strings.Split(line, ":")
-	gameRow := strings.Split(row[1], "|")
-	winningNumbersStr := strings.Split(strings.TrimSpace(gameRow[0]), " ")
-	winningNumbers := []int{}
-	for _, numb := range winningNumbersStr {
-		if len(numb) == 0 {
-			continue
-		}
-		val, err := strconv.Atoi(numb)
-		check(err)
-		winningNumbers = append(winningNumbers, val)
-	}
-
-	ownNumbersStr := strings.Split(strings.TrimSpace(gameRow[1]), " ")
-	ownNumbers := []int{}
-	for _, numb := range ownNumbersStr {
-		if len(numb) == 0 {
-			continue
-		}
-		val, err := strconv.Atoi(numb)
-		check(err)
-		ownNumbers = append(ownNumbers, val)
-	}
-
-	winCount := 0
-	for _, numb := range ownNumbers {
-		if slices.Contains(winningNumbers, numb) {
-			winCount += 1
-		}
-	}
-
-	if winCount > 0 {
-		return int(math.Pow(2, float64(winCount-1)))
-	}
-	return 0
-}
-
-func part2(lines []string) int {
+func part2(lines []string) {
+	start := time.Now()
 	scratchCards := map[int]int{}
 
 	for idx, line := range lines {
@@ -96,30 +96,28 @@ func part2(lines []string) int {
 		row := strings.Split(line, ":")
 		gameRow := strings.Split(row[1], "|")
 		winningNumbersStr := strings.Split(strings.TrimSpace(gameRow[0]), " ")
-		winningNumbers := []int{}
+		winningNumbers := make(map[int]bool)
 		for _, numb := range winningNumbersStr {
 			if len(numb) == 0 {
 				continue
 			}
-			val, err := strconv.Atoi(numb)
+			val, err := strconv.ParseInt(numb, 10, 32)
 			check(err)
-			winningNumbers = append(winningNumbers, val)
+			winningNumbers[int(val)] = true // Add the winning numbers to a map
 		}
 
 		ownNumbersStr := strings.Split(strings.TrimSpace(gameRow[1]), " ")
-		ownNumbers := []int{}
+		matchingNumbers := 0
+
 		for _, numb := range ownNumbersStr {
 			if len(numb) == 0 {
 				continue
 			}
-			val, err := strconv.Atoi(numb)
-			check(err)
-			ownNumbers = append(ownNumbers, val)
-		}
 
-		matchingNumbers := 0
-		for _, numb := range ownNumbers {
-			if slices.Contains(winningNumbers, numb) {
+			val, err := strconv.ParseInt(numb, 10, 32)
+			check(err)
+			// Check if the number is a winning number
+			if winningNumbers[int(val)] {
 				matchingNumbers++
 			}
 		}
@@ -135,5 +133,7 @@ func part2(lines []string) int {
 		totalVal += scratchCards[k]
 	}
 
-	return totalVal
+	elapsed := time.Since(start)
+	fmt.Println("Part 2 result: ", totalVal)
+	fmt.Println("Part 2 took: ", elapsed.Microseconds(), " μs")
 }

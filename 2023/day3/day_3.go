@@ -2,8 +2,10 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"os"
 	"strconv"
+	"time"
 )
 
 // check if error is nil
@@ -40,11 +42,12 @@ func main() {
 	maxRows := len(lines)
 	maxCols := len(lines[0])
 
-	println("Part 1: ", part1(lines, maxRows, maxCols))
-	println("Part 2: ", part2(lines, maxRows, maxCols))
+	part1(lines, maxRows, maxCols)
+	part2(lines, maxRows, maxCols)
 }
 
-func part1(lines []string, maxRows int, maxCols int) int {
+func part1(lines []string, maxRows int, maxCols int) {
+	start := time.Now()
 	partNumberVal := 0
 
 	for row, line := range lines {
@@ -81,10 +84,13 @@ func part1(lines []string, maxRows int, maxCols int) int {
 			}
 		}
 	}
-	return partNumberVal
+	elapsed := time.Since(start)
+	fmt.Println("Part 1 result: ", partNumberVal)
+	fmt.Println("Part 1 took: ", elapsed.Microseconds(), " μs")
 }
 
-func part2(lines []string, maxRows int, maxCols int) int {
+func part2(lines []string, maxRows int, maxCols int) {
+	start := time.Now()
 	sum := 0
 
 	// Create a 3d matrix that holds the part numbers.
@@ -154,7 +160,9 @@ func part2(lines []string, maxRows int, maxCols int) int {
 		}
 	}
 
-	return sum
+	elapsed := time.Since(start)
+	fmt.Println("Part 2 result: ", sum)
+	fmt.Println("Part 2 took: ", elapsed.Microseconds(), " μs")
 }
 
 // helper function to check if a character is a symbol

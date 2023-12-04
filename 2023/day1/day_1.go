@@ -7,6 +7,7 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+	"time"
 )
 
 // boiler plate
@@ -30,26 +31,6 @@ func readLines(path string) ([]string, error) {
 	return lines, scanner.Err()
 }
 
-func part1(strSlice []string) int {
-	// get first number
-	first := strSlice[0]
-	if len(first) > 1 {
-		first = first[:1]
-	}
-
-	// get last number
-	last := strSlice[len(strSlice)-1]
-	if len(last) > 1 {
-		last = last[len(last)-1:]
-	}
-
-	strMerge := first + last
-	intMerge, err := strconv.Atoi(strMerge)
-	check(err)
-
-	return intMerge
-}
-
 func main() {
 	// Boiler plate
 	err := os.Chdir("./2023/day1")
@@ -57,12 +38,12 @@ func main() {
 	// End boiler plate
 
 	// Part 1
-	lines, err := readLines("./annan_input.txt")
+	lines, err := readLines("./input.txt")
 	check(err)
 
 	sum := 0
 	rePart1 := regexp.MustCompile("[0-9]+")
-
+	start := time.Now()
 	for _, line := range lines {
 		strSlice := rePart1.FindAllString(line, -1)
 
@@ -73,19 +54,16 @@ func main() {
 		sum += part1(strSlice)
 	}
 
-	fmt.Println("part 1: ", sum)
+	elapsed := time.Since(start)
+	fmt.Println("Part 1 result: ", sum)
+	fmt.Println("Part 1 took: ", elapsed.Microseconds(), " μs")
 
 	// Part 2
-	lines, err = readLines("./annan_input.txt")
+	lines, err = readLines("./input.txt")
 	check(err)
-	// numberStringMap := map[string]string{"one": "1", "two": "2", "three": "3", "four": "4", "five": "5", "six": "6", "seven": "7", "eight": "8", "nine": "9"}
 
+	start = time.Now()
 	numberStringSlice := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine"}
-
-	// var numberStringSlice []string
-	// for key := range numberStringMap {
-	// 	numberStringSlice = append(numberStringSlice, key)
-	// }
 	reNumbers := regexp.MustCompile("[0-9]")
 	sum = 0
 	for _, line := range lines {
@@ -111,6 +89,27 @@ func main() {
 		// since part1 solution takes a []string, i need to split the result string
 		sum += part1(strings.Split(result, ""))
 	}
+	elapsed = time.Since(start)
+	fmt.Println("Part 2 result: ", sum)
+	fmt.Println("Part 2 took: ", elapsed.Microseconds(), " μs")
+}
 
-	fmt.Println("part 2: ", sum)
+func part1(strSlice []string) int {
+	// get first number
+	first := strSlice[0]
+	if len(first) > 1 {
+		first = first[:1]
+	}
+
+	// get last number
+	last := strSlice[len(strSlice)-1]
+	if len(last) > 1 {
+		last = last[len(last)-1:]
+	}
+
+	strMerge := first + last
+	intMerge, err := strconv.Atoi(strMerge)
+	check(err)
+
+	return intMerge
 }
