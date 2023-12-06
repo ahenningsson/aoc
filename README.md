@@ -16,7 +16,7 @@
 | 3   | x      | 2006 μs     | x      | 1519 μs     | [Day 3](https://github.com/ahenningsson/aoc/tree/main/2023/day3/day_3.go) | Solution inspired from [William Y. Feng](https://www.youtube.com/watch?v=6t1dR_-U_zE) |
 | 4   | x      | 432 μs      | x      | 473 μs      | [Day 4](https://github.com/ahenningsson/aoc/tree/main/2023/day4/day_4.go) |                                                                                       |
 | 5   |        |             |        |             |                                                                           |                                                                                       |
-| 6   | x      | 4 μs        | x      | 31250  μs   |                                                                           |                                                                                       |
+| 6   | x      | 4 μs        | x      | 31250  μs   | [Day 6](https://github.com/ahenningsson/aoc/tree/main/2023/day4/day_6.go) |                                                                                       |
 | 7   |        |             |        |             |                                                                           |                                                                                       |
 | 8   |        |             |        |             |                                                                           |                                                                                       |
 | 9   |        |             |        |             |                                                                           |                                                                                       |
