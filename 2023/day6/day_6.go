@@ -107,15 +107,17 @@ func part2(lines []string) {
 	distance, err := strconv.ParseInt(distanceStr.String(), 10, 64)
 	check(err)
 
-	waysToWin := 0
-	var s int64
+	// calculate the number of possible ways to win
+	var s int64 // the number of seconds I hold the button
 	for s = 0; s < raceTime; s++ {
+		// When I hold the button for s time and I win, it means that all the options between s and endtime - s are also winning options
+		// This means that I dont have to iterate through all the options
 		if (s * (raceTime - s)) > distance {
-			waysToWin++
+			break
 		}
 	}
 
 	elapsed := time.Since(start)
-	fmt.Println("Part 2 result:", waysToWin)
+	fmt.Println("Part 2 result:", int(raceTime-(2*s+1)))
 	fmt.Println("Part 2 took: ", elapsed.Microseconds(), " μs")
 }
