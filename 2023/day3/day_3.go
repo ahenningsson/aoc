@@ -35,7 +35,7 @@ func main() {
 	err := os.Chdir("./2023/day3")
 	check(err)
 
-	lines, err := readLines("./input.txt")
+	lines, err := readLines("./demo_input.txt")
 	check(err)
 	// // End boiler plate
 
@@ -43,7 +43,7 @@ func main() {
 	maxCols := len(lines[0])
 
 	part1(lines, maxRows, maxCols)
-	part2(lines, maxRows, maxCols)
+	// part2(lines, maxRows, maxCols)
 }
 
 func part1(lines []string, maxRows int, maxCols int) {

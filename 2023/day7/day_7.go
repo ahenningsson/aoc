@@ -118,9 +118,11 @@ func part1(lines []string) {
 		fmt.Println("Hand: ", hand, "Point: ", getPoint(hand))
 
 		handBidMap[hand] = int(bid)
-
-		// TODO: send all hands with the same points to a function that will rank them
 	}
+
+	fmt.Println(handBidMap, handPointsMap)
+
+	// TODO: send all hands with the same points to a function that will rank them
 }
 
 func evaluateStrongestHand(str1 string, str2 string) {
