@@ -13,7 +13,7 @@
 | --- | ------ | ------- | --------- | --------- |
 | 1   | 111 μs | 351 μs  |    |   |
 
-## Summary - stats previous years
+## Stats previous years
 | Year | Star count | Link | Comment |
 | ---- | -------------- | ---- | ------- |
 | 2023   | 15     | [2023](https://github.com/ahenningsson/aoc/tree/main/2023/) | |
