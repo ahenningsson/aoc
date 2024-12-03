@@ -1,8 +1,8 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
+	"main/utils"
 	"os"
 	"sort"
 	"strconv"
@@ -10,32 +10,12 @@ import (
 	"time"
 )
 
-func check(e error) {
-	if e != nil {
-		panic(e)
-	}
-}
-
-// boiler plate
-func readLines(path string) ([]string, error) {
-	file, err := os.Open(path)
-	check(err)
-	defer file.Close()
-
-	var lines []string
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		lines = append(lines, scanner.Text()) // append each line to the lines slice
-	}
-	return lines, scanner.Err()
-}
-
 func main() {
 	err := os.Chdir("../2024/day1")
-	check(err)
+	utils.CheckErr(err)
 
-	lines, err := readLines("./input.txt")
-	check(err)
+	lines, err := utils.ReadLines("./input.txt")
+	utils.CheckErr(err)
 
 	var slice1 []int
 	var slice2 []int
