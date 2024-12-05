@@ -16,17 +16,25 @@ func main() {
 	lines, err := utils.ReadLines("./input.txt")
 	utils.CheckErr(err)
 
-	start := time.Now()
 	var inputSlice [][]string
 	for _, line := range lines {
 		val := strings.Split(line, "")
 		inputSlice = append(inputSlice, val)
 	}
+
+	start := time.Now()
 	val := part1(inputSlice)
 	elapsed := time.Since(start)
 
+	start2 := time.Now()
+	val2 := part2(inputSlice)
+	elapsed2 := time.Since(start2)
+
 	fmt.Println("Part 1 result: ", val)
 	fmt.Println("Part 1 took: ", elapsed.Microseconds(), " μs")
+
+	fmt.Println("Part 2 result: ", val2)
+	fmt.Println("Part 2 took: ", elapsed2.Microseconds(), " μs")
 }
 
 func transpose(slice [][]string) [][]string {
@@ -61,12 +69,14 @@ func checkTopLeftToBottomRightDiagonal(slice [][]string, reg *regexp.Regexp) int
 
 		for row < rows && currentCol < cols {
 			diagonal += slice[row][currentCol]
+			if len(diagonal) == 4 {
+				if findMatch(diagonal, reg) {
+					occurrences++
+				}
+				diagonal = diagonal[1:] // Never let the string become more than len 4. This is because in the situation where the string is XMASXAMS and it regex the entire string, it will return 1, not 2.
+			}
 			row++
 			currentCol++
-		}
-
-		if len(diagonal) > 3 {
-			occurrences += findMatch(diagonal, reg)
 		}
 	}
 
@@ -77,11 +87,14 @@ func checkTopLeftToBottomRightDiagonal(slice [][]string, reg *regexp.Regexp) int
 
 		for currentRow < rows && col < cols {
 			diagonal += slice[currentRow][col]
+			if len(diagonal) == 4 {
+				if findMatch(diagonal, reg) {
+					occurrences++
+				}
+				diagonal = diagonal[1:]
+			}
 			currentRow++
 			col++
-		}
-		if len(diagonal) > 3 {
-			occurrences += findMatch(diagonal, reg)
 		}
 	}
 	return occurrences
@@ -101,11 +114,14 @@ func checkTopRightToBottomLeftDiagonal(slice [][]string, reg *regexp.Regexp) int
 
 		for row < rows && currentCol >= 0 {
 			diagonal += slice[row][currentCol]
+			if len(diagonal) == 4 {
+				if findMatch(diagonal, reg) {
+					occurrences++
+				}
+				diagonal = diagonal[1:]
+			}
 			row++
 			currentCol--
-		}
-		if len(diagonal) > 3 {
-			occurrences += findMatch(diagonal, reg)
 		}
 	}
 
@@ -117,40 +133,86 @@ func checkTopRightToBottomLeftDiagonal(slice [][]string, reg *regexp.Regexp) int
 
 		for currentRow < rows && col >= 0 {
 			diagonal += slice[currentRow][col]
+			if len(diagonal) == 4 {
+				if findMatch(diagonal, reg) {
+					occurrences++
+				}
+				diagonal = diagonal[1:]
+			}
 			currentRow++
 			col--
-		}
-
-		if len(diagonal) > 3 {
-			occurrences += findMatch(diagonal, reg)
 		}
 	}
 	return occurrences
 }
 
-func findMatch(str string, reg *regexp.Regexp) int {
-	// fmt.Println(str)
-	matches := reg.FindAllStringSubmatch(str, -1)
-	return len(matches)
+func findMatch(str string, reg *regexp.Regexp) bool {
+	matches := reg.MatchString(str)
+
+	return matches
 }
 
 func part1(inputSlice [][]string) int {
 	reg, _ := regexp.Compile(`XMAS|SAMX`)
 
+	rows := len(inputSlice)
+	cols := len(inputSlice[0])
+
 	occurrences := 0
-	for _, line := range inputSlice {
-		matches := reg.FindAllStringSubmatch(strings.Join(line, ""), -1)
-		occurrences += len(matches)
-	}
 
 	transposed := transpose(inputSlice)
-	for _, line := range transposed {
-		matches := reg.FindAllStringSubmatch(strings.Join(line, ""), -1)
-		occurrences += len(matches)
+	for r := 0; r < rows; r++ {
+		substring := ""
+		substring2 := ""
+		for c := 0; c < cols; c++ {
+			substring += inputSlice[r][c]
+			substring2 += transposed[r][c]
+
+			if len(substring) == 4 {
+				if reg.MatchString(substring) {
+					occurrences++
+				}
+				if reg.MatchString(substring2) {
+					occurrences++
+				}
+				substring = substring[1:]
+				substring2 = substring2[1:]
+			}
+		}
 	}
 
+	// Check diagonals
 	occurrences += checkTopLeftToBottomRightDiagonal(inputSlice, reg)
 	occurrences += checkTopRightToBottomLeftDiagonal(inputSlice, reg)
+
+	return occurrences
+}
+
+func part2(inputSlice [][]string) int {
+	reg, _ := regexp.Compile(`MAS|SAM`)
+
+	rows := len(inputSlice)
+	cols := len(inputSlice[0])
+
+	occurrences := 0
+
+	for r := 1; r < (rows - 1); r++ {
+		for c := 1; c < (cols - 1); c++ {
+			centerCharacter := inputSlice[r][c]
+
+			if centerCharacter != "A" {
+				continue
+			}
+
+			// Get diagonals
+			tl_br_diag := inputSlice[r-1][c-1] + centerCharacter + inputSlice[r+1][c+1]
+			tr_bl_diag := inputSlice[r-1][c+1] + centerCharacter + inputSlice[r+1][c-1]
+
+			if reg.MatchString(tl_br_diag) && reg.MatchString(tr_bl_diag) {
+				occurrences++
+			}
+		}
+	}
 
 	return occurrences
 }
