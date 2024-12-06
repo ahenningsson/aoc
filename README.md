@@ -15,6 +15,7 @@
 | 2   | 220 μs      | 480 μs      | [Link](https://github.com/ahenningsson/aoc/tree/main/2024/day2) |         |
 | 3   | 366 μs      | 441 μs      | [Link](https://github.com/ahenningsson/aoc/tree/main/2024/day3) |         |
 | 4   | 16681 μs    | 1182 μs     | [Link](https://github.com/ahenningsson/aoc/tree/main/2024/day4) |         |
+| 5   | 541 μs      | 4608 μs     | [Link](https://github.com/ahenningsson/aoc/tree/main/2024/day5) |         |
 
 ## Stats previous years
 
