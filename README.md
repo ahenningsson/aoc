@@ -15,6 +15,7 @@
 | 2   | 180 μs      | 205 μs      | [Link](https://github.com/ahenningsson/aoc/tree/main/2025/day2) | Brute Force.        | 
 | 3   | 84750 μs    | 82 μs       | [Link](https://github.com/ahenningsson/aoc/tree/main/2025/day3) |         |
 | 4   | 13 μs       | 43 μs       | [Link](https://github.com/ahenningsson/aoc/tree/main/2025/day4) |         |
+| 5   | 118 μs      | 21 μs       | [Link](https://github.com/ahenningsson/aoc/tree/main/2025/day5) |         |
 
 ## Stats previous years
 
